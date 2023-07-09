@@ -1,7 +1,7 @@
 @extends('admin.layouts.base')
 
 @section('contents')
-    <h1>Add new project</h1>
+    <h1 class="main-title py-3">Add new project</h1>
     <form method="POST" action="{{ route('admin.projects.store') }}" novalidate>
         @csrf
 
@@ -61,20 +61,6 @@
             </div>
         </div>
 
-        {{-- <div class="mb-3">
-            <label for="description" class="form-label">Peso</label>
-            <input
-                type="description"
-                class="form-control @error('description') is-invalid @enderror"
-                id="description"
-                name="description"
-                value="{{ old('description') }}"
-            >
-            <div class="invalid-feedback">
-                @error('description') {{ $message }} @enderror
-            </div>
-        </div> --}}
-
         <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <textarea
@@ -90,3 +76,14 @@
         <button class="btn btn-primary">Salva</button>
     </form>
 @endsection
+
+
+<style lang="scss" scoped>
+    .main-title{
+        color: white;
+    }
+
+    form{
+        color: white;
+    }
+</style>

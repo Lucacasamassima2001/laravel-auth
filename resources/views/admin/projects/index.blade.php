@@ -1,31 +1,30 @@
 @extends('admin.layouts.base')
 @section('contents')
-<h1>Progetti</h1>
+<h1 class="py-3 text-light">My Projects:</h1>
 
  @if (session('delete_success'))
     @php $project = session('delete_success') @endphp
     <div class="alert alert-danger">
-        The project "{{ $project->title }}" has benn eliminated
-        {{-- <form
+        The project "{{ $project->title }}" has been moved to trash can
+        <form
             action="{{ route("admin.projects.restore", ['project' => $project]) }}"
                 method="post"
                 class="d-inline-block"
             >
             @csrf
-            <button class="btn btn-warning">Ripristina</button>
-        </form> --}}
+            <button class="btn btn-warning">Restore</button>
+        </form>
     </div>
 @endif
 
-{{-- @if (session('restore_success'))
+@if (session('restore_success'))
     @php $project = session('restore_success') @endphp
     <div class="alert alert-success">
-        La pasta "{{ $pasta->titolo }}" è stata ripristinata
+        Project "{{ $project->title }}" has been restored
     </div>
-@endif  --}}
+@endif 
 
-{{-- <a class="btn btn-primary" href="{{ route('pastas.create') }}">Nuovo</a>
-<a class="btn btn-primary" href="{{ route('pastas.trashed') }}">Cestino</a> --}}
+
 
 <table class="table table-striped">
     <thead>
@@ -33,8 +32,11 @@
             <th scope="col">ID</th>
             <th scope="col">Titolo</th>
             <th scope="col">Image</th>
+            <th scope="col">Languages</th>
             <th scope="col">Description</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Actions:</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -47,10 +49,15 @@
                 <td>{{ $project->description }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ route('admin.projects.show', ['project' => $project]) }}">View</a>
+                    
+                </td>
+                <td>
                     <a class="btn btn-warning" href="{{ route('admin.projects.edit', ['project' => $project]) }}">Edit</a>
+                </td>
+                <td>
                     <button type="button" class="btn btn-danger js-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="
                     {{$project->id}}">
-                        Delete
+                        Trash
                     </button>
                 </td>
             </tr>
@@ -58,15 +65,17 @@
     </tbody>
 </table>
 
+
+
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Action confirmation</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <div class="modal-body">
-          Are you sure?
+          Do you want to move this project to trash?
         </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -79,7 +88,7 @@
                     >
                         @csrf
                         @method('delete')
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-danger">Trash</button>
                     </form>
             </div>
         </div>
@@ -87,14 +96,4 @@
 </div>
 
 {{ $projects->links() }}
-
-{{-- <div>
-    <ul>
-        @for($i = 1; $i <= $pastas->lastPage(); $i++)
-            <li>
-                <a href="/pastas?page={{ $i }}">{{ $i }}</a>
-            </li>
-        @endfor
-    </ul>
-</div> --}}
 @endsection

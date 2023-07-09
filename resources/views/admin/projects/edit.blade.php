@@ -1,7 +1,7 @@
 @extends('admin.layouts.base')
 
 @section('contents')
-    <h1>Add new project</h1>
+    <h1 class="main-title py-3">Edit this project</h1>
     <form method="POST" action="{{ route('admin.projects.update', ['project' => $project]) }}" novalidate>
         @csrf
         @method('PUT')
@@ -27,7 +27,7 @@
                 class="form-control @error('url_image') is-invalid @enderror"
                 id="url_image"
                 name="url_image"
-                value="{{ old('url_image') }}"
+                value="{{ old('url_image', $project->url_image) }}"
             >
             <div class="invalid-feedback">
                 @error('url_image', $project->url_image) {{ $message }} @enderror
@@ -55,26 +55,13 @@
                 class="form-control @error('languages') is-invalid @enderror"
                 id="languages"
                 name="languages"
-                value="{{ old('languages') }}"
+                value="{{ old('languages', $project->languages) }}"
             >
             <div class="invalid-feedback">
                 @error('languages', $project->languages) {{ $message }} @enderror
             </div>
         </div>
 
-        {{-- <div class="mb-3">
-            <label for="description" class="form-label">Peso</label>
-            <input
-                type="description"
-                class="form-control @error('description') is-invalid @enderror"
-                id="description"
-                name="description"
-                value="{{ old('description') }}"
-            >
-            <div class="invalid-feedback">
-                @error('description') {{ $message }} @enderror
-            </div>
-        </div> --}}
 
         <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
@@ -82,7 +69,7 @@
                 class="form-control @error('description') is-invalid @enderror"
                 id="description"
                 rows="3"
-                name="description">{{ old('description') }}</textarea>
+                name="description">{{ old('description', $project->description) }}</textarea>
             <div class="invalid-feedback">
                 @error('description', $project->description) {{ $message }} @enderror
             </div>
@@ -91,3 +78,14 @@
         <button class="btn btn-primary">Salva</button>
     </form>
 @endsection
+
+
+<style lang="scss" scoped>
+    .main-title{
+        color: white;
+    }
+
+    form{
+        color: white;
+    }
+</style>

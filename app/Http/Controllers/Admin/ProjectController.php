@@ -15,7 +15,7 @@ class ProjectController extends Controller
             'url_image'=> 'required|url|max:200',
             'repo'=> 'required|string|min:5|max:100',
             'languages'=> 'required|string|min:5|max:100',
-            'description'=> 'required|string|min:5|max:200',
+            'description'=> 'required|string|min:5',
     ];
 
     private $validation_messages = [
@@ -127,5 +127,29 @@ class ProjectController extends Controller
     {
         $project->delete();
         return to_route('admin.projects.index')->with('delete_success', $project);
+    }
+
+    public function restore($id)
+    {
+        Project::withTrashed()->where('id', $id)->restore();
+
+        $project = Project::find($id);
+
+        return to_route('admin.projects.index')->with('restore_success', $project);
+    }
+
+    public function trashed()
+    {
+        $trashedProjects = Project::onlyTrashed()->paginate(6);
+
+        return view('admin.projects.trashed', compact('trashedProjects'));
+    }
+
+    public function harddelete($id)
+    {
+        $project = Project::withTrashed()->find($id);
+        $project->forceDelete();
+
+        return to_route('admin.projects.trashed')->with('delete_success', $project);
     }
 }

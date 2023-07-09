@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('repo', 100);
             $table->string('languages', 150);
             $table->text('description');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

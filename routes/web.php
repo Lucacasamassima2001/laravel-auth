@@ -19,6 +19,18 @@ use App\Http\Controllers\Guests\PageController as GuestPageController;
 
 Route::get('/', [GuestPageController::class, 'home'])->name('guests.home');
 
+Route::middleware(['auth', 'verified'])
+->name('admin.')
+->prefix('admin')
+->group(function () {
+    Route::get('/projects/trashed', [ProjectController::class, 'trashed'])->name('projects.trashed');
+    Route::post('/projects/{project}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
+    Route::delete('/projects/{project}/harddelete', [ProjectController::class, 'harddelete'])->name('projects.harddelete');
+});
+
+
+
+
 
 Route::middleware(['auth', 'verified'])
 ->name('admin.')

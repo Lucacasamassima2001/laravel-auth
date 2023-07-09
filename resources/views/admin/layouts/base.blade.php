@@ -18,3 +18,10 @@
     @include('admin.includes.footer')
 </body>
 </html>
+
+
+<style lang="scss" scoped>
+    body{
+        background-color: rgb(77, 77, 189);
+    }
+</style>

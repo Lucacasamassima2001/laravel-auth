@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 use App\Models\Project;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProjectsTableSeeder extends Seeder
@@ -12,15 +13,15 @@ class ProjectsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
         for($i = 0; $i < 50; $i++){
             Project::create([
-                'title' => 'Laravel Learning',
-                'url_image'=> 'https://picsum.photos/id/237/200/300',
-                'repo'=> 'repo di laravel',
-                'languages'=> 'laravel,php',
-                'description'=> 'priam repo su laravel per imparare',
+                'title' => $faker->sentence(),
+                'url_image'=> $faker->imageUrl(640, 480, 'animals', true),
+                'repo'=>  $faker->word(),
+                'languages'=> $faker->sentence(),
+                'description'=> $faker->paragraph(),
             ]);
         }
     }
