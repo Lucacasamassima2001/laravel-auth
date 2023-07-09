@@ -21,27 +21,28 @@
               <li><a class="dropdown-item" href="{{route('admin.projects.index')}}">Index</a></li>
               <li><a class="dropdown-item" href="{{route('admin.projects.create')}}">Add Project</a></li>
               <li><a class="dropdown-item" href="{{route('admin.projects.trashed')}}">Bin</a></li>
-
             </ul>
           </li>
         </ul>
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{ $user->name }}
-              </a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{{ route('admin.profile.edit') }}">Edit profile</a></li>
-
-                  <li>
-                      <form action="{{ route('logout') }}" method="post">
-                          @csrf
-                          <button>Logout</button>
-                      </form>
-                  </li>
-              </ul>
+  
+      <div class="btn-group dropstart">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ $user->name }}
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="{{ route('admin.profile.edit') }}">Edit profile</a>
           </li>
-      </ul>
+          <li>
+            <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <div class="container text-left">
+              <button>Logout</button>
+            </div>
+            </form>
+          </li>
+        </ul>
+      </div>
       
       </div>
     </div>
