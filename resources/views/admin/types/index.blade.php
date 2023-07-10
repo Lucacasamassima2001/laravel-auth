@@ -1,13 +1,13 @@
 @extends('admin.layouts.base')
 @section('contents')
-<h1 class="py-3 text-light">My Projects:</h1>
+<h1 class="py-3 text-light">Types:</h1>
 
- @if (session('delete_success'))
+ {{-- @if (session('delete_success'))
     @php $project = session('delete_success') @endphp
     <div class="alert alert-danger">
         The project "{{ $project->title }}" has been moved to trash can
         <form
-            action="{{ route("admin.projects.restore", ['project' => $project]) }}"
+            action="{{ route("admin.types.restore", ['project' => $project]) }}"
                 method="post"
                 class="d-inline-block"
             >
@@ -22,7 +22,7 @@
     <div class="alert alert-success">
         Project "{{ $project->title }}" has been restored
     </div>
-@endif 
+@endif  --}}
 
 
 
@@ -30,38 +30,27 @@
     <thead>
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Titolo</th>
-            <th scope="col">Image</th>
-            <th scope="col">Languages</th>
-            <th scope="col">Type</th>
-            <th scope="col">Description</th>
+            <th scope="col">Name</th>
             <th scope="col">Actions:</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($projects as $project)
+        @foreach ($types as $type)
             <tr>
-                <th scope="row">{{ $project->id }}</th>
-                <td>{{ $project->title }}</td>
-                <td>{{ $project->url_image }}</td>
-                <td>{{ $project->languages }}</td>
-                <td><a href="{{ route('admin.types.show', ['type' => $project->type]) }}">{{ $project->type->name }}</a></td>
-                <td>{{ $project->description }}</td>
+                <th scope="row">{{ $type->id }}</th>
+                <td>{{ $type->name }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{{ route('admin.projects.show', ['project' => $project]) }}">View</a>
-                    
+                    <a class="btn btn-primary" href="{{ route('admin.types.show', ['type' => $type]) }}">View</a>
                 </td>
-                <td>
-                    <a class="btn btn-warning" href="{{ route('admin.projects.edit', ['project' => $project]) }}">Edit</a>
+                {{-- <td>
+                    <a class="btn btn-warning" href="{{ route('admin.types.edit', ['type' => $type]) }}">Edit</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger js-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="
-                    {{$project->id}}">
+                    {{$type->id}}">
                         Trash
                     </button>
-                </td>
+                </td> --}}
             </tr>
         @endforeach
     </tbody>
@@ -77,13 +66,13 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <div class="modal-body">
-          Do you want to move this project to trash?
+          Do you want to move this type to trash?
         </div>
             <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <form
-                        action="{{ route('admin.projects.destroy', ['project' => $project]) }}"
-                        data-template="{{ route('admin.projects.destroy', ['project' => '*****']) }}"
+                        action="{{ route('admin.types.destroy', ['type' => $type]) }}"
+                        data-template="{{ route('admin.types.destroy', ['type' => '*****']) }}"
                         method="post"
                         class="d-inline-block"
                         id="confirm-delete"
@@ -97,5 +86,5 @@
     </div>
 </div>
 
-{{ $projects->links() }}
+{{-- {{ $types->links() }} --}}
 @endsection

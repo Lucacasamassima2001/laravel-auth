@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Type;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ProjectController extends Controller
 {
@@ -12,6 +13,7 @@ class ProjectController extends Controller
 
     private $validations = [
             'title'=> 'required|string|min:5|max:100',
+            'type_id' =>'required|integer|exists:types,id',
             'url_image'=> 'required|url|max:200',
             'repo'=> 'required|string|min:5|max:100',
             'languages'=> 'required|string|min:5|max:100',
@@ -23,6 +25,7 @@ class ProjectController extends Controller
             'min' => 'il campo contrassegnato richiede :min caratteri',
             'max' => 'il campo contrassegnato richiede :max caratteri',
             'url' => 'il campo contrassegnato deve essere un url valido',
+            'exists' => 'il campo non è valido',
     ];
     /**
      * Display a listing of the resource.
@@ -42,7 +45,8 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $types = Type::all();
+        return view('admin.projects.create', compact('types'));
     }
 
     /**
@@ -58,11 +62,12 @@ class ProjectController extends Controller
         $data = $request->all();
         // salvare i dati se corretti
         $newProject = new Project();
-        $newProject->title = $data['title'];
-        $newProject->url_image = $data['url_image'];
-        $newProject->repo = $data['repo'];
-        $newProject->languages = $data['languages'];
-        $newProject->description = $data['description'];
+        $newProject->title          = $data['title'];
+        $newProject->type_id        = $data['type_id'];
+        $newProject->url_image      = $data['url_image'];
+        $newProject->repo           = $data['repo'];
+        $newProject->languages      = $data['languages'];
+        $newProject->description    = $data['description'];
         $newProject->save();
 
 
@@ -90,7 +95,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $types = Type::all();
+        return view('admin.projects.edit', compact('project', 'types'));
     }
 
     /**
@@ -102,10 +108,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $request->validate($this->validations, $this->validation_messages);
         // richiedere($data) e validare i dati del form
         $data = $request->all();
         // salvare i dati se corretti
         $project->title = $data['title'];
+        $project->type_id = $data['type_id'];
         $project->url_image = $data['url_image'];
         $project->repo = $data['repo'];
         $project->languages = $data['languages'];
